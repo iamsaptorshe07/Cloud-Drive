@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<input type="hidden" id="folder_loc" value="{{folder_loc}}">
+<div class="container my-5">
+    {% for m in messages %}
+        <script>
+            alert("{{m}}");
+        </script>
+    {% endfor%}
+<!-- Folder or file-->
+<div class="container text-center my-5">
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Upload File
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Upload File</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/uploadfile" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="location" value="{{folder_loc}}">
+                <label>Upload FIle</label>
+                <input type="file" name="file">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+            </form>
+      </div>
+    </div>
+  </div>
+   <!-- Button trigger modal -->
+   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+    Create Folder
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create Folder</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/createfolder" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="location" value="{{folder_loc}}">
+                <label>Folder Name</label>
+                <input type="text" name="folder">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container folder"> 
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+  {% for folder in folder %}
+    <div class="col">
+    
+      <div class="card mb-4 shadow-sm">
+      <div class="card-header">
+        <h4 class="my-0 fw-normal">{{folder.name}}</h4>
+      </div>
+      <div class="card-body">
+        <img src="https://i.pinimg.com/originals/a6/f0/89/a6f089c3ad682858d8d9626d12d6c9a6.jpg" height="100" width="300">
+        <a href="/myfolder/{{folder.location}}">
+            <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Open</button>
+            </a>      
+    </div>
+    </div>
+    
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="container file">
+    {% for file in file %}
+        <div class="file">
+            <form action="/downloadfile" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="location" value="{{file.location}}">
+                {{file.name}}
+                <button type="submit">Download</button>
+            </form>
+            <br>
+        </div>
+
+    {% endfor %}
+</div>
+</div>
+{% endblock body %}

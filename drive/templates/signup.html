@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="text-center my-5">
+<div class="form-signin">
+<div class="container">
+    {% for m in messages %}
+        {{m}}
+    {% endfor%}
+<form action="/signup" method="POST">
+    {% csrf_token %}
+    <img class="mb-4" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Please sign Up</h1>
+    <label for="inputEmail" class="visually-hidden">username</label>
+    <input type="text" id="inputEmail" class="form-control" placeholder="username" required="" autofocus="" name="username">
+    <label for="inputPassword" class="visually-hidden">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" name="password">
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
+    <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
+  </form>
+</div>
+</div>
+</div>
+{% endblock body %}
